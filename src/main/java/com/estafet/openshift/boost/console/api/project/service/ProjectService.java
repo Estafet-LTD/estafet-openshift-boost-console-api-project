@@ -25,10 +25,12 @@ public class ProjectService {
 	public List<Project> getProjects() {
 		List<Project> projects = new ArrayList<Project>();;
 		List<IProject> iprojects = client.getProjects();
+		System.out.println(iprojects);
 		for (IProject iproject : iprojects) {
 		    Project project = new Project();
 		    project.setTitle(iproject.getDisplayName());
-		    project.setNamespace(iproject.getNamespaceName());		
+		    project.setNamespace(iproject.getNamespaceName());	
+		    System.out.println("Project: " + iproject.getDisplayName() + "user url: " + ENV.USER_SERVICE_API + "/user/uid/" + iproject.getLabels().get("userId"));
 		    User user = restTemplate.getForObject(ENV.USER_SERVICE_API + "/user/uid/" + iproject.getLabels().get("userId"), User.class);
 		    project.setOwner(user.getName());
 		    projects.add(project);
