@@ -76,6 +76,8 @@ objects:
       spec:
         containers:
           - env:
+              - name: USER_API_SERVICE_URI
+                value: 'http://console-user-api.${NAMESPACE}.svc:8080'
               - name: PRODUCT
                 value: ${PRODUCT}          
               - name: OPENSHIFT_HOST_PORT
