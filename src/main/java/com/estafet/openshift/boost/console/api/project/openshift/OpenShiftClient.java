@@ -89,6 +89,7 @@ public final class OpenShiftClient {
 		pipeline.accept(new CapabilityVisitor<IBuildTriggerable, IBuild>() {
             @Override
             public IBuild visit(IBuildTriggerable capability) {
+            	capability.setEnvironmentVariable("PROJECT_TITLE", project.getTitle());
             	capability.setEnvironmentVariable("USER_NAME", project.getOwner());
             	capability.setEnvironmentVariable("USER_ID", uid);
                 return capability.trigger();
