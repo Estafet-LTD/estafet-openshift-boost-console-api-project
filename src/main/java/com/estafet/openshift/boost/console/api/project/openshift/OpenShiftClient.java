@@ -70,7 +70,10 @@ public final class OpenShiftClient {
 	
 	@SuppressWarnings("deprecation")
 	public void executeCreateEnviromentPipeline(Project project, String uid) {
+		System.out.println("In executeCreateEnviromentPipeline");
+
 		Span span = tracer.buildSpan("OpenShiftClient.getCreateEnviromentPipeline").start();
+		System.out.println("Created span");
 		try {
 			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-enviroment"), project, uid);
 
@@ -83,6 +86,7 @@ public final class OpenShiftClient {
 	
 	
 	private void executePipeline(IBuildConfig pipeline, Project project, String uid) {
+		System.out.println("In executePipeline");
 		pipeline.accept(new CapabilityVisitor<IBuildTriggerable, IBuild>() {
             @Override
             public IBuild visit(IBuildTriggerable capability) {

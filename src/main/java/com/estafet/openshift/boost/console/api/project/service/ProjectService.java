@@ -65,6 +65,7 @@ public class ProjectService {
 	public String createProject(Project project) {
 		User user = restTemplate.getForObject(ENV.USER_SERVICE_API + "/user/name/" + project.getOwner(), User.class);
 		String uid = user.getUid();
+		System.out.println("User name: " + project.getOwner() + ", UID: " + uid);
 		client.executeCreateEnviromentPipeline(project, uid);
 		return "success";
 	}
