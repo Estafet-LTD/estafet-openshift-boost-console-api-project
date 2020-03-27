@@ -75,7 +75,7 @@ public final class OpenShiftClient {
 		Span span = tracer.buildSpan("OpenShiftClient.getCreateEnviromentPipeline").start();
 		System.out.println("Created span");
 		try {
-			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-enviroment", ENV.PRODUCT + "-cicd"), project, uid);
+			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-environment", ENV.PRODUCT + "-cicd"), project, uid);
 		} catch (RuntimeException e) {
 			throw handleException(span, e);
 		} finally {
