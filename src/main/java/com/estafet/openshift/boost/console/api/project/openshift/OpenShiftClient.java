@@ -9,8 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.estafet.openshift.boost.commons.lib.env.ENV;
 import com.estafet.openshift.boost.console.api.project.model.Project;
-import com.estafet.openshift.boost.console.api.project.util.ENV;
 import com.openshift.restclient.ClientBuilder;
 import com.openshift.restclient.IClient;
 import com.openshift.restclient.ResourceKind;
@@ -75,8 +75,7 @@ public final class OpenShiftClient {
 		Span span = tracer.buildSpan("OpenShiftClient.getCreateEnviromentPipeline").start();
 		System.out.println("Created span");
 		try {
-			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-enviroment"), project, uid);
-
+			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-enviroment", ENV.PRODUCT + "-cicd"), project, uid);
 		} catch (RuntimeException e) {
 			throw handleException(span, e);
 		} finally {
