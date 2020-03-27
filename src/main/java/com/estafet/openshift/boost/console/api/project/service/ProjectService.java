@@ -71,5 +71,10 @@ public class ProjectService {
 		client.executeCreateEnviromentPipeline(project, uid);
 		return "success";
 	}
+	
+	public String deleteProject(Project project) {
+		client.deleteProject(project);
+		return "success";
+	}
 
 }

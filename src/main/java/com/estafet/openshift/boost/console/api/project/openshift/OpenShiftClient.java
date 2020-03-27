@@ -20,7 +20,6 @@ import com.openshift.restclient.model.IBuild;
 import com.openshift.restclient.model.IBuildConfig;
 import com.openshift.restclient.model.IProject;
 import com.openshift.restclient.model.IResource;
-import com.openshift.restclient.model.user.IUser;
 
 import io.opentracing.Span;
 import io.opentracing.Tracer;
@@ -56,7 +55,7 @@ public final class OpenShiftClient {
 	
 	@SuppressWarnings("unchecked")
 	public List<IProject> getProjects() {
-		Span span = tracer.buildSpan("OpenShiftClient.getUsers").start();
+		Span span = tracer.buildSpan("OpenShiftClient.getProjects").start();
 		try {		 
 			Map<String, String> labels = new HashMap<String, String>();
 			labels.put("type", product + "-dq");
@@ -95,6 +94,17 @@ public final class OpenShiftClient {
                 return capability.trigger();
             }
         }, null);
+	}
+	
+	public void deleteProject(Project project) {
+		Span span = tracer.buildSpan("OpenShiftClient.deleteProject").start();
+		try {		 
+			getClient().delete(ResourceKind.PROJECT, ENV.PRODUCT + "-cicd", project.getNamespace());
+		} catch (RuntimeException e) {
+			throw handleException(span, e);
+		} finally {
+			span.finish();
+		}
 	}
 
 	private RuntimeException handleException(Span span, RuntimeException e) {
