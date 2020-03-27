@@ -106,6 +106,20 @@ public final class OpenShiftClient {
 			span.finish();
 		}
 	}
+	
+	public void editProject(Project project, String namespace) {
+		Span span = tracer.buildSpan("OpenShiftClient.deleteProject").start();
+		try {		 
+			IProject iproject = getClient().get(ResourceKind.PROJECT, namespace, ENV.PRODUCT + "-cicd");
+			iproject.setDisplayName(project.getTitle());
+			getClient().update(iproject);
+		} catch (RuntimeException e) {
+			throw handleException(span, e);
+		} finally {
+			span.finish();
+		}
+	}
+	
 
 	private RuntimeException handleException(Span span, RuntimeException e) {
 		Tags.ERROR.set(span, true);

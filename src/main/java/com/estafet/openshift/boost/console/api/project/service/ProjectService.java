@@ -76,5 +76,10 @@ public class ProjectService {
 		client.deleteProject(project);
 		return "success";
 	}
+	
+	public String editProject(Project project, String namespace) {
+		client.editProject(project, namespace);
+		return "success";
+	}
 
 }
