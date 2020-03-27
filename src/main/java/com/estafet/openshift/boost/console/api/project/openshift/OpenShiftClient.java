@@ -9,9 +9,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.estafet.openshift.boost.console.api.project.model.Project;
+import com.estafet.openshift.boost.console.api.project.util.ENV;
 import com.openshift.restclient.ClientBuilder;
 import com.openshift.restclient.IClient;
 import com.openshift.restclient.ResourceKind;
+import com.openshift.restclient.capability.CapabilityVisitor;
+import com.openshift.restclient.capability.resources.IBuildTriggerable;
+import com.openshift.restclient.model.IBuild;
+import com.openshift.restclient.model.IBuildConfig;
 import com.openshift.restclient.model.IProject;
 import com.openshift.restclient.model.IResource;
 import com.openshift.restclient.model.user.IUser;
@@ -60,6 +66,31 @@ public final class OpenShiftClient {
 		} finally {
 			span.finish();
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void executeCreateEnviromentPipeline(Project project, String uid) {
+		Span span = tracer.buildSpan("OpenShiftClient.getCreateEnviromentPipeline").start();
+		try {
+			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-enviroment"), project, uid);
+
+		} catch (RuntimeException e) {
+			throw handleException(span, e);
+		} finally {
+			span.finish();
+		}
+	}
+	
+	
+	private void executePipeline(IBuildConfig pipeline, Project project, String uid) {
+		pipeline.accept(new CapabilityVisitor<IBuildTriggerable, IBuild>() {
+            @Override
+            public IBuild visit(IBuildTriggerable capability) {
+            	capability.setEnvironmentVariable("USER_NAME", project.getOwner());
+            	capability.setEnvironmentVariable("USER_ID", uid);
+                return capability.trigger();
+            }
+        }, null);
 	}
 
 	private RuntimeException handleException(Span span, RuntimeException e) {
