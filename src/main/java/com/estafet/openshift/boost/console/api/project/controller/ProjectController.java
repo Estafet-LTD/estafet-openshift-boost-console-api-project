@@ -41,8 +41,8 @@ public class ProjectController {
 		return new ResponseEntity<String>(projectService.createProject(project), HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/project")
-	public ResponseEntity<String> deleteProject(@RequestBody Project project) {
+	@DeleteMapping("/project/{project}")
+	public ResponseEntity<String> deleteProject(@PathVariable String project) {
 		return new ResponseEntity<String>(projectService.deleteProject(project), HttpStatus.OK);
 	}
 

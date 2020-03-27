@@ -96,10 +96,10 @@ public final class OpenShiftClient {
         }, null);
 	}
 	
-	public void deleteProject(Project project) {
+	public void deleteProject(String project) {
 		Span span = tracer.buildSpan("OpenShiftClient.deleteProject").start();
 		try {		 
-			getClient().delete(ResourceKind.PROJECT, ENV.PRODUCT + "-cicd", project.getNamespace());
+			getClient().delete(ResourceKind.PROJECT, ENV.PRODUCT + "-cicd", project);
 		} catch (RuntimeException e) {
 			throw handleException(span, e);
 		} finally {

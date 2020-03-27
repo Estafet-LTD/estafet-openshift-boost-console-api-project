@@ -72,7 +72,7 @@ public class ProjectService {
 		return "success";
 	}
 	
-	public String deleteProject(Project project) {
+	public String deleteProject(String project) {
 		client.deleteProject(project);
 		return "success";
 	}
