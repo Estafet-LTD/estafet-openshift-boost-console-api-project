@@ -67,6 +67,17 @@ public final class OpenShiftClient {
 		}
 	}
 	
+	public IProject getProject(String project) {
+		Span span = tracer.buildSpan("OpenShiftClient.getProject").start();
+		try {		 
+			return getClient().get(ResourceKind.PROJECT, project, ENV.PRODUCT + "-cicd");
+		} catch (RuntimeException e) {
+			throw handleException(span, e);
+		} finally {
+			span.finish();
+		}
+	}
+	
 	@SuppressWarnings("deprecation")
 	public void executeCreateEnviromentPipeline(Project project, String uid) {
 		System.out.println("In executeCreateEnviromentPipeline");

@@ -61,6 +61,16 @@ public class ProjectService {
 		return projects;
 	}
 	
+	public Project getProject(String namespace) {
+		IProject iproject = client.getProject(namespace);
+		Project project = new Project();
+		project.setTitle(iproject.getDisplayName());
+	    project.setNamespace(iproject.getNamespaceName());
+	    User user = restTemplate.getForObject(ENV.USER_SERVICE_API + "/user/uid/" + iproject.getLabels().get("userId"), User.class);
+	    project.setOwner(user.getName());
+	    return project;
+	}
+	
 
 	public String createProject(Project project) {
 		User user = new User();
