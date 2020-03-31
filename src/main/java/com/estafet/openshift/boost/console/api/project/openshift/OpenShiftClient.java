@@ -91,6 +91,7 @@ public final class OpenShiftClient {
             	capability.setEnvironmentVariable("PROJECT_TITLE", project.getTitle());
             	capability.setEnvironmentVariable("USER_NAME", project.getOwner());
             	capability.setEnvironmentVariable("USER_ID", uid);
+        		System.out.println("Capability: " + capability);
                 return capability.trigger();
             }
         }, null);
