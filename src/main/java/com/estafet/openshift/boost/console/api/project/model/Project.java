@@ -8,6 +8,9 @@ public class Project {
 	private String owner;
 	
 	private String namespace;
+	
+	private String status;
+
 
 
 
@@ -23,6 +26,10 @@ public class Project {
 		return namespace;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -34,5 +41,9 @@ public class Project {
 	
 	public void setNamespace(String namespace) {
 		this.namespace = namespace;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }
