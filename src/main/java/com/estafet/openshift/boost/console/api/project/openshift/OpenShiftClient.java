@@ -80,10 +80,7 @@ public final class OpenShiftClient {
 	
 	@SuppressWarnings("deprecation")
 	public void executeCreateEnviromentPipeline(Project project, String uid) {
-		System.out.println("In executeCreateEnviromentPipeline");
-
 		Span span = tracer.buildSpan("OpenShiftClient.getCreateEnviromentPipeline").start();
-		System.out.println("Created span");
 		try {
 			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-environment", ENV.PRODUCT + "-cicd"), project, uid);
 		} catch (RuntimeException e) {
@@ -95,14 +92,12 @@ public final class OpenShiftClient {
 	
 	
 	private void executePipeline(IBuildConfig pipeline, Project project, String uid) {
-		System.out.println("In executePipeline");
 		pipeline.accept(new CapabilityVisitor<IBuildTriggerable, IBuild>() {
             @Override
             public IBuild visit(IBuildTriggerable capability) {
             	capability.setEnvironmentVariable("PROJECT_TITLE", project.getTitle());
             	capability.setEnvironmentVariable("USER_NAME", project.getOwner());
             	capability.setEnvironmentVariable("USER_ID", uid);
-        		System.out.println("Capability: " + capability);
                 return capability.trigger();
             }
         }, null);
