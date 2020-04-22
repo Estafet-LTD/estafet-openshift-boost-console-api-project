@@ -87,6 +87,7 @@ public final class OpenShiftClient {
             	capability.setEnvironmentVariable("USER_NAME", project.getOwner());
             	capability.setEnvironmentVariable("USER_ID", uid);
             	capability.setEnvironmentVariable("PRODUCT", ENV.PRODUCT);
+            	capability.setEnvironmentVariable("OPENSHIFT_HOST_PORT", System.getenv("OPENSHIFT_HOST_PORT"));
                 return capability.trigger();
             }
         }, null);

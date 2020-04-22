@@ -35,12 +35,6 @@ parameters:
 - description: Defines the openshift host and port
   name: OPENSHIFT_HOST_PORT
   required: true     
-- description: Defines the openshift admin user
-  name: OPENSHIFT_USER
-  required: true     
-- description: Defines the openshift admin password
-  name: OPENSHIFT_PASSWORD
-  required: true        
 objects:
 - apiVersion: v1
   kind: DeploymentConfig
@@ -81,11 +75,7 @@ objects:
               - name: PRODUCT
                 value: ${PRODUCT}          
               - name: OPENSHIFT_HOST_PORT
-                value: ${OPENSHIFT_HOST_PORT}   
-              - name: OPENSHIFT_USER
-                value: ${OPENSHIFT_USER}   
-              - name: OPENSHIFT_PASSWORD
-                value: ${OPENSHIFT_PASSWORD}             
+                value: ${OPENSHIFT_HOST_PORT}               
               - name: JAEGER_SAMPLER_TYPE
                 value: const
               - name: JAEGER_SAMPLER_PARAM
