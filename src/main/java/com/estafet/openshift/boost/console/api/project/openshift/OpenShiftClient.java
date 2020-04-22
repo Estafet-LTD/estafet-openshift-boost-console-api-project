@@ -40,18 +40,6 @@ public final class OpenShiftClient {
 				.withPassword(System.getenv("OPENSHIFT_PASSWORD"))
 				.build();
 	}
-
-//	@SuppressWarnings("unchecked")
-//	public List<IUser> getUsers() {
-//		Span span = tracer.buildSpan("OpenShiftClient.getUsers").start();
-//		try {
-//			return (List<IUser>) getClient().get(ResourceKind.USER, product + "-cicd");
-//		} catch (RuntimeException e) {
-//			throw handleException(span, e);
-//		} finally {
-//			span.finish();
-//		}
-//	}
 	
 	@SuppressWarnings("unchecked")
 	public List<IProject> getProjects() {
@@ -98,6 +86,7 @@ public final class OpenShiftClient {
             	capability.setEnvironmentVariable("PROJECT_TITLE", project.getTitle());
             	capability.setEnvironmentVariable("USER_NAME", project.getOwner());
             	capability.setEnvironmentVariable("USER_ID", uid);
+            	capability.setEnvironmentVariable("PRODUCT", ENV.PRODUCT);
                 return capability.trigger();
             }
         }, null);
