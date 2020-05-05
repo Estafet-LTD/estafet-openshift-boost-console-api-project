@@ -41,7 +41,7 @@ public final class OpenShiftClient {
 				.build();
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public List<IProject> getProjects() {
 		Span span = tracer.buildSpan("OpenShiftClient.getProjects").start();
 		try {		 
@@ -55,6 +55,7 @@ public final class OpenShiftClient {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public IProject getProject(String project) {
 		Span span = tracer.buildSpan("OpenShiftClient.getProject").start();
 		try {		 
@@ -88,11 +89,14 @@ public final class OpenShiftClient {
             	capability.setEnvironmentVariable("USER_ID", uid);
             	capability.setEnvironmentVariable("PRODUCT", ENV.PRODUCT);
             	capability.setEnvironmentVariable("OPENSHIFT_HOST_PORT", System.getenv("OPENSHIFT_HOST_PORT"));
+            	capability.setEnvironmentVariable("REPO", System.getenv("PRODUCT_REPO"));
+            	capability.setEnvironmentVariable("GITHUB", System.getenv("GITHUB"));
                 return capability.trigger();
             }
         }, null);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void deleteProject(String project) {
 		Span span = tracer.buildSpan("OpenShiftClient.deleteProject").start();
 		try {		 
@@ -104,6 +108,7 @@ public final class OpenShiftClient {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void editProject(Project project, String namespace) {
 		Span span = tracer.buildSpan("OpenShiftClient.deleteProject").start();
 		try {		 
@@ -116,7 +121,6 @@ public final class OpenShiftClient {
 			span.finish();
 		}
 	}
-	
 
 	private RuntimeException handleException(Span span, RuntimeException e) {
 		Tags.ERROR.set(span, true);

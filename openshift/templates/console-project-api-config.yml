@@ -73,7 +73,11 @@ objects:
               - name: USER_API_SERVICE_URI
                 value: 'http://console-user-api.${NAMESPACE}.svc:8080'
               - name: PRODUCT
-                value: ${PRODUCT}          
+                value: ${PRODUCT}      
+              - name: PRODUCT_REPO
+                value: ${PRODUCT_REPO}
+              - name: GITHUB
+                value: ${GITHUB}                    
               - name: OPENSHIFT_HOST_PORT
                 value: ${OPENSHIFT_HOST_PORT}               
               - name: JAEGER_SAMPLER_TYPE
