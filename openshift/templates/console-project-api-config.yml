@@ -71,23 +71,50 @@ objects:
         containers:
           - env:
               - name: USER_API_SERVICE_URI
-                value: 'http://console-user-api.${NAMESPACE}.svc:8080'
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: USER_API_SERVICE_URI
               - name: PRODUCT
-                value: ${PRODUCT}      
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: PRODUCT      
               - name: PRODUCT_REPO
-                value: ${PRODUCT_REPO}
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: PRODUCT_REPO
               - name: GITHUB
-                value: ${GITHUB}                    
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: GITHUB                    
               - name: OPENSHIFT_HOST_PORT
-                value: ${OPENSHIFT_HOST_PORT}               
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: OPENSHIFT_HOST_PORT               
               - name: JAEGER_SAMPLER_TYPE
-                value: const
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JAEGER_SAMPLER_TYPE
               - name: JAEGER_SAMPLER_PARAM
-                value: '1'                
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JAEGER_SAMPLER_PARAM                
               - name: JAEGER_SAMPLER_MANAGER_HOST_PORT
-                value: jaeger-agent.${NAMESPACE}.svc:5778
-              - name: JAEGER_AGENT_HOST
-                value: jaeger-agent.${NAMESPACE}.svc                                          
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JAEGER_SAMPLER_MANAGER_HOST_PORT
+              - name: JAEGER_AGENT_HOST   
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JAEGER_AGENT_HOST
             image: ${DOCKER_REGISTRY}/${DOCKER_NAMESPACE}/${MICROSERVICE}:${DOCKER_IMAGE_LABEL}
             imagePullPolicy: Always
             name: ${MICROSERVICE}

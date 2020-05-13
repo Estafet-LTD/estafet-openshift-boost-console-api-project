@@ -1,0 +1,6 @@
+resources:
+  max_memory: 400Mi
+  min_memory: 100Mi
+  max_cpu: 1
+  min_cpu: 50m
+  replicas: 1 
