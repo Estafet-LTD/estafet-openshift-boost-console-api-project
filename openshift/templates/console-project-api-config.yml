@@ -38,10 +38,7 @@ parameters:
   required: true    
 - description: Defines the product that this template is related to
   name: PRODUCT
-  required: true  
-- description: Defines the openshift host and port
-  name: OPENSHIFT_HOST_PORT
-  required: true     
+  required: true      
 objects:
 - apiVersion: v1
   kind: DeploymentConfig
