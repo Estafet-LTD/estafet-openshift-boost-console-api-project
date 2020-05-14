@@ -97,7 +97,12 @@ objects:
                 valueFrom:
                   configMapKeyRef:
                     name: ${MICROSERVICE} 
-                    key: OPENSHIFT_HOST_PORT               
+                    key: OPENSHIFT_HOST_PORT   
+              - name: JAEGER_SERVICE_NAME
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JAEGER_SERVICE_NAME                                   
               - name: JAEGER_SAMPLER_TYPE
                 valueFrom:
                   configMapKeyRef:
