@@ -86,12 +86,7 @@ objects:
                 valueFrom:
                   configMapKeyRef:
                     name: ${MICROSERVICE} 
-                    key: PRODUCT_REPO
-              - name: GITHUB
-                valueFrom:
-                  configMapKeyRef:
-                    name: ${MICROSERVICE} 
-                    key: GITHUB                    
+                    key: PRODUCT_REPO                   
               - name: OPENSHIFT_HOST_PORT
                 valueFrom:
                   configMapKeyRef:

@@ -4,9 +4,7 @@ config_map:
   - name: USER_API_SERVICE_URI
     value: "http://console-user-api.{{ project }}.svc:8080"
   - name: PRODUCT_REPO
-    value: "{{ product.repo }}"
-  - name: GITHUB
-    value: "{{ github.org }}"                    
+    value: "{{ product.repo }}"                    
   - name: OPENSHIFT_HOST_PORT
     value: "{{ openshift_host_port }}"                     
   - name: JAEGER_SERVICE_NAME
