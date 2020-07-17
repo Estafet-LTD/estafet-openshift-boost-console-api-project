@@ -1,4 +1,4 @@
-package com.estafet.openshift.boost.console.api.project.service;
+package com.estafet.boostcd.project.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,9 @@ import org.springframework.web.client.RestTemplate;
 
 
 import com.openshift.restclient.model.IProject;
-
-
-import com.estafet.openshift.boost.console.api.project.model.Project;
-import com.estafet.openshift.boost.console.api.project.openshift.OpenShiftClient;
-import com.estafet.openshift.boost.console.api.project.util.ENV;
+import com.estafet.boostcd.project.api.model.Project;
+import com.estafet.boostcd.project.api.openshift.OpenShiftClient;
+import com.estafet.boostcd.project.api.util.ENV;
 import com.estafet.openshift.boost.messages.users.User;
 
 @Service

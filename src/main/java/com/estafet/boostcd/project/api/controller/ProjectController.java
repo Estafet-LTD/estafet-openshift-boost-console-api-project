@@ -1,4 +1,4 @@
-package com.estafet.openshift.boost.console.api.project.controller;
+package com.estafet.boostcd.project.api.controller;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estafet.boostcd.project.api.model.Project;
+import com.estafet.boostcd.project.api.service.ProjectService;
 import com.estafet.openshift.boost.commons.lib.model.API;
-import com.estafet.openshift.boost.console.api.project.model.Project;
-import com.estafet.openshift.boost.console.api.project.service.ProjectService;
 
 @RestController
 public class ProjectController {

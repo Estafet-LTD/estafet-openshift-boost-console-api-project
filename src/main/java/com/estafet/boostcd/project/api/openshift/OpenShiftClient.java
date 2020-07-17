@@ -1,4 +1,4 @@
-package com.estafet.openshift.boost.console.api.project.openshift;
+package com.estafet.boostcd.project.api.openshift;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -9,8 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.estafet.boostcd.project.api.model.Project;
 import com.estafet.openshift.boost.commons.lib.env.ENV;
-import com.estafet.openshift.boost.console.api.project.model.Project;
 import com.openshift.restclient.ClientBuilder;
 import com.openshift.restclient.IClient;
 import com.openshift.restclient.ResourceKind;

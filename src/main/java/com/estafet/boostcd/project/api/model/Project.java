@@ -1,13 +1,16 @@
-package com.estafet.openshift.boost.console.api.project.model;
+package com.estafet.boostcd.project.api.model;
 
 
-public class ProjectRequest {
+public class Project {
 
 	private String title;
 	
 	private String owner;
 	
 	private String namespace;
+	
+	private String status;
+
 
 
 
@@ -23,6 +26,10 @@ public class ProjectRequest {
 		return namespace;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -34,5 +41,9 @@ public class ProjectRequest {
 	
 	public void setNamespace(String namespace) {
 		this.namespace = namespace;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

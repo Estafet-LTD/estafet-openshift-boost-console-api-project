@@ -1,4 +1,4 @@
-package com.estafet.openshift.boost.console.api.project.util;
+package com.estafet.boostcd.project.api.util;
 
 public final class ENV {
 
