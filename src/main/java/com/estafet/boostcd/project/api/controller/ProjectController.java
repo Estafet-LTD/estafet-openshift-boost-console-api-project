@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estafet.boostcd.commons.model.API;
 import com.estafet.boostcd.project.api.model.Project;
 import com.estafet.boostcd.project.api.service.ProjectService;
-import com.estafet.openshift.boost.commons.lib.model.API;
 
 @RestController
 public class ProjectController {

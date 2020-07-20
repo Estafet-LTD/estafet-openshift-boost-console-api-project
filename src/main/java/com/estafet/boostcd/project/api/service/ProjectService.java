@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 import com.openshift.restclient.model.IProject;
 import com.estafet.boostcd.project.api.model.Project;
 import com.estafet.boostcd.project.api.openshift.OpenShiftClient;
-import com.estafet.boostcd.project.api.util.ENV;
 import com.estafet.openshift.boost.messages.users.User;
 
 @Service
@@ -22,8 +21,8 @@ public class ProjectService {
 	
 	@Autowired
 	private RestTemplate restTemplate;
-	
 
+	public static final String USER_SERVICE_API = System.getenv("USER_API_SERVICE_URI");
 
 	public List<Project> getProjects() {
 		List<Project> projects = new ArrayList<Project>();;
@@ -33,7 +32,7 @@ public class ProjectService {
 		    project.setTitle(iproject.getDisplayName());
 		    project.setNamespace(iproject.getNamespaceName());
 		    project.setStatus(iproject.getStatus());
-		    User user = restTemplate.getForObject(ENV.USER_SERVICE_API + "/user/uid/" + iproject.getLabels().get("userId"), User.class);
+		    User user = restTemplate.getForObject(USER_SERVICE_API + "/user/uid/" + iproject.getLabels().get("userId"), User.class);
 		    project.setOwner(user.getName());
 		    projects.add(project);
 		}		
@@ -46,16 +45,15 @@ public class ProjectService {
 		project.setTitle(iproject.getDisplayName());
 	    project.setNamespace(iproject.getNamespaceName());
 	    project.setStatus(iproject.getStatus());
-	    User user = restTemplate.getForObject(ENV.USER_SERVICE_API + "/user/uid/" + iproject.getLabels().get("userId"), User.class);
+	    User user = restTemplate.getForObject(USER_SERVICE_API + "/user/uid/" + iproject.getLabels().get("userId"), User.class);
 	    project.setOwner(user.getName());
 	    return project;
 	}
-	
 
 	public String createProject(Project project) {
 		User user = new User();
 		user.setName(project.getOwner());
-		user.setUid((restTemplate.getForObject(ENV.USER_SERVICE_API + "/user/name/" + project.getOwner() + "/", User.class).getUid()));
+		user.setUid((restTemplate.getForObject(USER_SERVICE_API + "/user/name/" + project.getOwner() + "/", User.class).getUid()));
 		String uid = user.getUid();
 		client.executeCreateEnviromentPipeline(project, uid);
 		return "success";

@@ -9,8 +9,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.estafet.boostcd.commons.env.ENV;
 import com.estafet.boostcd.project.api.model.Project;
-import com.estafet.openshift.boost.commons.lib.env.ENV;
 import com.openshift.restclient.ClientBuilder;
 import com.openshift.restclient.IClient;
 import com.openshift.restclient.ResourceKind;
