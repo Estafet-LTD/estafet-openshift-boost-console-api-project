@@ -9,7 +9,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.estafet.boostcd.commons.env.ENV;
 import com.estafet.boostcd.project.api.model.Project;
 import com.openshift.restclient.ClientBuilder;
 import com.openshift.restclient.IClient;
@@ -30,11 +29,8 @@ public final class OpenShiftClient {
 
 	@Autowired
 	private Tracer tracer;
-	
-	private String product;
 
 	private IClient getClient() {
-		product = System.getenv("PRODUCT");
 		return new ClientBuilder("https://" + System.getenv("OPENSHIFT_HOST_PORT"))
 				.withUserName(System.getenv("OPENSHIFT_USER"))
 				.withPassword(System.getenv("OPENSHIFT_PASSWORD"))
@@ -42,11 +38,11 @@ public final class OpenShiftClient {
 	}
 	
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public List<IProject> getProjects() {
+	public List<IProject> getProjects(String productId) {
 		Span span = tracer.buildSpan("OpenShiftClient.getProjects").start();
 		try {		 
 			Map<String, String> labels = new HashMap<String, String>();
-			labels.put("type", product + "-dq");
+			labels.put("type", productId + "-dq");
 			return (List<IProject>)(List<?>) (List<IResource>) getClient().list(ResourceKind.PROJECT, labels);
 		} catch (RuntimeException e) {
 			throw handleException(span, e);
@@ -56,10 +52,10 @@ public final class OpenShiftClient {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public IProject getProject(String project) {
+	public IProject getProject(String productId, String project) {
 		Span span = tracer.buildSpan("OpenShiftClient.getProject").start();
 		try {		 
-			return getClient().get(ResourceKind.PROJECT, project, ENV.PRODUCT + "-cicd");
+			return getClient().get(ResourceKind.PROJECT, project, productId + "-cicd");
 		} catch (RuntimeException e) {
 			throw handleException(span, e);
 		} finally {
@@ -68,10 +64,10 @@ public final class OpenShiftClient {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void executeCreateEnviromentPipeline(Project project, String uid) {
+	public void executeCreateEnviromentPipeline(String productId, Project project, String uid) {
 		Span span = tracer.buildSpan("OpenShiftClient.getCreateEnviromentPipeline").start();
 		try {
-			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-environment", ENV.PRODUCT + "-cicd"), project, uid);
+			executePipeline((IBuildConfig) getClient().get(ResourceKind.BUILD_CONFIG, "create-environment", productId + "-cicd"), productId, project, uid);
 		} catch (RuntimeException e) {
 			throw handleException(span, e);
 		} finally {
@@ -80,14 +76,14 @@ public final class OpenShiftClient {
 	}
 	
 	
-	private void executePipeline(IBuildConfig pipeline, Project project, String uid) {
+	private void executePipeline(IBuildConfig pipeline, String productId, Project project, String uid) {
 		pipeline.accept(new CapabilityVisitor<IBuildTriggerable, IBuild>() {
             @Override
             public IBuild visit(IBuildTriggerable capability) {
             	capability.setEnvironmentVariable("PROJECT_TITLE", project.getTitle());
             	capability.setEnvironmentVariable("USER_NAME", project.getOwner());
             	capability.setEnvironmentVariable("USER_ID", uid);
-            	capability.setEnvironmentVariable("PRODUCT", ENV.PRODUCT);
+            	capability.setEnvironmentVariable("PRODUCT", productId);
             	capability.setEnvironmentVariable("OPENSHIFT_HOST_PORT", System.getenv("OPENSHIFT_HOST_PORT"));
             	capability.setEnvironmentVariable("REPO", System.getenv("PRODUCT_REPO"));
                 return capability.trigger();
@@ -96,10 +92,10 @@ public final class OpenShiftClient {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void deleteProject(String project) {
+	public void deleteProject(String productId, String project) {
 		Span span = tracer.buildSpan("OpenShiftClient.deleteProject").start();
 		try {		 
-			getClient().delete(ResourceKind.PROJECT, ENV.PRODUCT + "-cicd", project);
+			getClient().delete(ResourceKind.PROJECT, productId + "-cicd", project);
 		} catch (RuntimeException e) {
 			throw handleException(span, e);
 		} finally {
@@ -108,10 +104,10 @@ public final class OpenShiftClient {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void editProject(Project project, String namespace) {
+	public void editProject(String productId, Project project, String namespace) {
 		Span span = tracer.buildSpan("OpenShiftClient.deleteProject").start();
 		try {		 
-			IProject iproject = getClient().get(ResourceKind.PROJECT, namespace, ENV.PRODUCT + "-cicd");
+			IProject iproject = getClient().get(ResourceKind.PROJECT, namespace, productId + "-cicd");
 			iproject.setDisplayName(project.getTitle());
 			getClient().update(iproject);
 		} catch (RuntimeException e) {

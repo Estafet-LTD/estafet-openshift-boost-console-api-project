@@ -32,29 +32,29 @@ public class ProjectController {
 		return new API(appVersion);
 	}
 
-	@GetMapping("/projects")
-	public List<Project> getProjects() {
-		return projectService.getProjects();
+	@GetMapping("/projects/{product}")
+	public List<Project> getProjects(@PathVariable String product) {
+		return projectService.getProjects(product);
 	}
 	
-	@GetMapping("/project/{namespace}")
-	public Project getProject(@PathVariable String namespace) {
-		return projectService.getProject(namespace);
+	@GetMapping("/project/{product}/{namespace}")
+	public Project getProject(@PathVariable String product, @PathVariable String namespace) {
+		return projectService.getProject(product, namespace);
 	}
 
-	@PostMapping("/project")
-	public ResponseEntity<String> createProject(@RequestBody Project project) {
-		return new ResponseEntity<String>(projectService.createProject(project), HttpStatus.OK);
+	@PostMapping("/project/{product}")
+	public ResponseEntity<String> createProject(@PathVariable String product, @RequestBody Project project) {
+		return new ResponseEntity<String>(projectService.createProject(product, project), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/project/{project}")
-	public ResponseEntity<String> deleteProject(@PathVariable String project) {
-		return new ResponseEntity<String>(projectService.deleteProject(project), HttpStatus.OK);
+	public ResponseEntity<String> deleteProject(@PathVariable String product, @PathVariable String project) {
+		return new ResponseEntity<String>(projectService.deleteProject(product, project), HttpStatus.OK);
 	}
 	
 	@PutMapping("/project/{namespace}")
-	public ResponseEntity<String> deleteProject(@PathVariable String namespace, @RequestBody Project project) {
-		return new ResponseEntity<String>(projectService.editProject(project, namespace), HttpStatus.OK);
+	public ResponseEntity<String> deleteProject(@PathVariable String product, @PathVariable String namespace, @RequestBody Project project) {
+		return new ResponseEntity<String>(projectService.editProject(product, project, namespace), HttpStatus.OK);
 	}
 
 }

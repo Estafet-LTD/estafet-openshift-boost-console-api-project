@@ -24,9 +24,9 @@ public class ProjectService {
 
 	public static final String USER_SERVICE_API = System.getenv("USER_API_SERVICE_URI");
 
-	public List<Project> getProjects() {
+	public List<Project> getProjects(String productId) {
 		List<Project> projects = new ArrayList<Project>();;
-		List<IProject> iprojects = client.getProjects();
+		List<IProject> iprojects = client.getProjects(productId);
 		for (IProject iproject : iprojects) {
 		    Project project = new Project();
 		    project.setTitle(iproject.getDisplayName());
@@ -39,8 +39,8 @@ public class ProjectService {
 		return projects;
 	}
 	
-	public Project getProject(String namespace) {
-		IProject iproject = client.getProject(namespace);
+	public Project getProject(String productId, String namespace) {
+		IProject iproject = client.getProject(productId, namespace);
 		Project project = new Project();
 		project.setTitle(iproject.getDisplayName());
 	    project.setNamespace(iproject.getNamespaceName());
@@ -50,22 +50,22 @@ public class ProjectService {
 	    return project;
 	}
 
-	public String createProject(Project project) {
+	public String createProject(String productId, Project project) {
 		User user = new User();
 		user.setName(project.getOwner());
 		user.setUid((restTemplate.getForObject(USER_SERVICE_API + "/user/name/" + project.getOwner() + "/", User.class).getUid()));
 		String uid = user.getUid();
-		client.executeCreateEnviromentPipeline(project, uid);
+		client.executeCreateEnviromentPipeline(productId, project, uid);
 		return "success";
 	}
 	
-	public String deleteProject(String project) {
-		client.deleteProject(project);
+	public String deleteProject(String productId, String project) {
+		client.deleteProject(productId, project);
 		return "success";
 	}
 	
-	public String editProject(Project project, String namespace) {
-		client.editProject(project, namespace);
+	public String editProject(String productId, Project project, String namespace) {
+		client.editProject(productId, project, namespace);
 		return "success";
 	}
 
