@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.estafet.boostcd.project.api.dao.ProductDAO;
 import com.estafet.boostcd.project.api.model.Project;
 import com.openshift.restclient.ClientBuilder;
 import com.openshift.restclient.IClient;
@@ -30,6 +31,9 @@ public final class OpenShiftClient {
 	@Autowired
 	private Tracer tracer;
 
+	@Autowired
+	private ProductDAO productDAO;
+	
 	private IClient getClient() {
 		return new ClientBuilder("https://" + System.getenv("OPENSHIFT_HOST_PORT"))
 				.withUserName(System.getenv("OPENSHIFT_USER"))
@@ -74,8 +78,7 @@ public final class OpenShiftClient {
 			span.finish();
 		}
 	}
-	
-	
+		
 	private void executePipeline(IBuildConfig pipeline, String productId, Project project, String uid) {
 		pipeline.accept(new CapabilityVisitor<IBuildTriggerable, IBuild>() {
             @Override
@@ -85,7 +88,7 @@ public final class OpenShiftClient {
             	capability.setEnvironmentVariable("USER_ID", uid);
             	capability.setEnvironmentVariable("PRODUCT", productId);
             	capability.setEnvironmentVariable("OPENSHIFT_HOST_PORT", System.getenv("OPENSHIFT_HOST_PORT"));
-            	capability.setEnvironmentVariable("REPO", System.getenv("PRODUCT_REPO"));
+            	capability.setEnvironmentVariable("REPO", productDAO.getProduct(productId).getRepo());
                 return capability.trigger();
             }
         }, null);

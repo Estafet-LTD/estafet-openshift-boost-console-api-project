@@ -5,9 +5,14 @@
 
 	<parent>
 		<groupId>com.estafet.boostcd</groupId>
-		<artifactId>boostcd-springboot</artifactId>
+		<artifactId>boostcd-springboot-jpa</artifactId>
 		<version>1.1.8</version>
 	</parent>
+
+	<properties>
+		<microservice>project-api</microservice>
+		<entity.package>com.estafet.boostcd.project.api.model</entity.package>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -34,6 +39,20 @@
 			<groupId>com.estafet.boostcd</groupId>
 			<artifactId>messages-lib</artifactId>
 			<version>0.0.34-SNAPSHOT</version>
-		</dependency>						
+		</dependency>
+		<dependency>
+			<groupId>com.estafet.boostcd</groupId>
+			<artifactId>ddl-lib</artifactId>
+			<version>0.0.17-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>			
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-activemq</artifactId>
+		</dependency>								
 	</dependencies>
 </project>

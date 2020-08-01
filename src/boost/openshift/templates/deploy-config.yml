@@ -33,10 +33,7 @@ parameters:
   required: true      
 - description: Defines docker registry
   name: DOCKER_IMAGE_LABEL
-  required: true    
-- description: Defines the product that this template is related to
-  name: PRODUCT
-  required: true      
+  required: true        
 objects:
 - apiVersion: v1
   kind: DeploymentConfig
@@ -67,12 +64,7 @@ objects:
                 valueFrom:
                   configMapKeyRef:
                     name: ${MICROSERVICE} 
-                    key: USER_API_SERVICE_URI
-              - name: PRODUCT
-                valueFrom:
-                  configMapKeyRef:
-                    name: ${MICROSERVICE} 
-                    key: PRODUCT      
+                    key: USER_API_SERVICE_URI     
               - name: PRODUCT_REPO
                 valueFrom:
                   configMapKeyRef:
@@ -118,6 +110,21 @@ objects:
                   configMapKeyRef:
                     name: ${MICROSERVICE} 
                     key: JAEGER_AGENT_HOST
+              - name: PROJECT_API_DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: PROJECT_API_DB_PASSWORD
+              - name: PROJECT_API_DB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: PROJECT_API_DB_USER
+              - name: PROJECT_API_JDBC_URL   
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: PROJECT_API_JDBC_URL                     
             image: ${DOCKER_REGISTRY}/${DOCKER_NAMESPACE}/${MICROSERVICE}:${DOCKER_IMAGE_LABEL}
             imagePullPolicy: Always
             name: ${MICROSERVICE}

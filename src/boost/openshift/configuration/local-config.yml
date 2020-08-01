@@ -1,8 +1,8 @@
 config_map:     
-  - name: PRODUCT
-    value: "{{ product.name }}"    
   - name: USER_API_SERVICE_URI
     value: "http://console-user-api.{{ project }}.svc:8080"
+  - name: PROJECT_API_JDBC_URL
+    value: "jdbc:postgresql://postgresql.{{ project }}.svc:5432/{{ project }}-{{ microservice.name }}"    
   - name: PRODUCT_REPO
     value: "{{ product.repo }}"                    
   - name: OPENSHIFT_HOST_PORT
