@@ -124,7 +124,22 @@ objects:
                 valueFrom:
                   configMapKeyRef:
                     name: ${MICROSERVICE} 
-                    key: PROJECT_API_JDBC_URL                     
+                    key: PROJECT_API_JDBC_URL                  
+              - name: JBOSS_A_MQ_BROKER_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JBOSS_A_MQ_BROKER_PASSWORD
+              - name: JBOSS_A_MQ_BROKER_URL
+                valueFrom:
+                  configMapKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JBOSS_A_MQ_BROKER_URL
+              - name: JBOSS_A_MQ_BROKER_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: ${MICROSERVICE} 
+                    key: JBOSS_A_MQ_BROKER_USER                           
             image: ${DOCKER_REGISTRY}/${DOCKER_NAMESPACE}/${MICROSERVICE}:${DOCKER_IMAGE_LABEL}
             imagePullPolicy: Always
             name: ${MICROSERVICE}
