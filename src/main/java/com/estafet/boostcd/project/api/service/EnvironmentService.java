@@ -18,7 +18,10 @@ public class EnvironmentService {
 	public void updateEnv(Environments environments) {
 		Product product = productDAO.getProduct(environments.getProductId());
 		if (product == null) {
-			product = Product.builder().setProductId(environments.getProductId()).build();
+			product = Product.builder()
+					.setProductId(environments.getProductId())
+					.setRepo(environments.getRepo())
+					.build();
 			productDAO.create(product);
 		}
 	}
